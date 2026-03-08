@@ -30,9 +30,9 @@ abstract class HmrBrowserTestCase extends TestCase
 
     protected BladeViewEdits $fixtureEditor;
 
-    protected string $fixturesRoot;
+    protected string $fixturesRoot = '';
 
-    protected string $workingViewPath;
+    protected string $workingViewPath = '';
 
     private string $originalWorkingView = '';
 
@@ -55,6 +55,7 @@ abstract class HmrBrowserTestCase extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->requireLivewire();
         $this->ensureViteServerRunning();
         $this->prepareBladeInstrumentation();
 
@@ -88,7 +89,10 @@ abstract class HmrBrowserTestCase extends TestCase
         }
         $this->fileRestoreMap = [];
 
-        file_put_contents($this->workingViewPath, $this->originalWorkingView, LOCK_EX);
+        if ($this->workingViewPath !== '' && $this->originalWorkingView !== '') {
+            file_put_contents($this->workingViewPath, $this->originalWorkingView, LOCK_EX);
+        }
+
         $this->clearHmrCompiledViews();
 
         parent::tearDown();

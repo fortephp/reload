@@ -32,6 +32,9 @@ jobs:
       - name: Install PHP dependencies
         run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
+      - name: Install Livewire for Livewire test lanes
+        run: composer require "livewire/livewire:^4" --dev --no-interaction --no-progress
+
       - name: Run PHP test suite
         run: ./vendor/bin/pest tests/php/Unit tests/php/Feature --ci
 
@@ -60,6 +63,9 @@ jobs:
 
       - name: Install PHP dependencies
         run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
+
+      - name: Install Livewire for browser tests
+        run: composer require "livewire/livewire:^4" --dev --no-interaction --no-progress
 
       - name: Install JavaScript dependencies
         run: npm ci
