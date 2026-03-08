@@ -78,4 +78,16 @@ abstract class TestCase extends OrchestraTestCase
             @unlink($file);
         }
     }
+
+    protected function livewireAvailable(): bool
+    {
+        return class_exists(\Livewire\LivewireServiceProvider::class);
+    }
+
+    protected function requireLivewire(): void
+    {
+        if (! $this->livewireAvailable()) {
+            $this->markTestSkipped('Livewire is not installed.');
+        }
+    }
 }

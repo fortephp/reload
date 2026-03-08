@@ -12,6 +12,8 @@ use Livewire\Livewire;
 uses(Forte\Reload\Tests\TestCase::class);
 
 test('livewire class-based component view elements are tagged with the original source path', function () {
+    $this->requireLivewire();
+
     $instrumentation = ReloadInstrumentation::make();
 
     Blade::prepareStringsForCompilationUsing(function (string $template) use ($instrumentation): string {

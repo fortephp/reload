@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Blade;
 uses(Forte\Reload\Tests\TestCase::class);
 
 test('livewire single-file component elements are tagged with the original source path', function () {
+    $this->requireLivewire();
+
     $componentLocation = FixturePaths::feature('views/livewire-single-file');
 
     $instrumentation = ReloadInstrumentation::make();
