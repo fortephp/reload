@@ -1,0 +1,17 @@
+{
+    "name": "@fortephp/reload-tests",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev:browser": "vite --config vite.browser-tests.config.js",
+        "test:js": "vitest run --config vitest.config.js",
+        "test:browser": "php vendor/bin/pest tests/php/Browser"
+    },
+    "devDependencies": {
+        "alpinejs": "^3.15.0",
+        "jsdom": "^26.0.0",
+        "playwright": "^1.58.2",
+        "vite": "^7.1.7",
+        "vitest": "^3.2.4"
+    }
+}

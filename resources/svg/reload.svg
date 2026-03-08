@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="square">
+    <path d="M1 7 V1 H7" />
+    <path d="M25 1 H31 V7" />
+    <path d="M7 31 H1 V25" />
+    <path d="M31 25 V31 H25" />
+  </g>
+  <text
+    x="16"
+    y="16"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+    font-size="16"
+    font-weight="600"
+    letter-spacing="-0.025em"
+    fill="#1E293B"
+  >Re</text>
+</svg>

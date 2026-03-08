@@ -1,0 +1,51 @@
+{
+    "name": "fortephp/reload",
+    "description": "Hot reload for Laravel Blade.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "John Koster",
+            "email": "john@stillat.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Forte\\Reload\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Forte\\Reload\\Tests\\": "tests/php/"
+        }
+    },
+    "require": {
+        "fortephp/forte": "^1",
+        "laravel/framework": "^10 || ^11 || ^12 || ^13"
+    },
+    "require-dev": {
+        "livewire/livewire": "^3.7 || ^4.0",
+        "nunomaduro/collision": "^8.6",
+        "orchestra/testbench": "^8.0 || ^9.0 || ^10.0",
+        "pestphp/pest": "^4.4",
+        "pestphp/pest-plugin-browser": "^4.3",
+        "pestphp/pest-plugin-laravel": "^4.1",
+        "laravel/pint": "^1.21",
+        "phpstan/phpstan": "^2.1"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Forte\\Reload\\ServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "format": "pint",
+        "analyse": "phpstan analyse --configuration=phpstan.neon --memory-limit=1G"
+    }
+}
