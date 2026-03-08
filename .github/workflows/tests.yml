@@ -25,14 +25,15 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          tools: composer:v2
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, intl, fileinfo
           coverage: none
 
       - name: Install PHP dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+        run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
       - name: Run PHP test suite
-        run: php vendor/bin/pest tests/php/Unit tests/php/Feature --ci
+        run: ./vendor/bin/pest tests/php/Unit tests/php/Feature --ci
 
   js-tests:
     name: JavaScript
@@ -43,11 +44,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:v2
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, intl, fileinfo
+          coverage: none
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+
+      - name: Install PHP dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
       - name: Install JavaScript dependencies
         run: npm ci
@@ -68,6 +80,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
+          tools: composer:v2
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, intl, fileinfo
           coverage: none
 
@@ -78,7 +91,7 @@ jobs:
           cache: npm
 
       - name: Install PHP dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+        run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
       - name: Install JavaScript dependencies
         run: npm ci
@@ -87,4 +100,4 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run browser test suite
-        run: php vendor/bin/pest tests/php/Browser --ci
+        run: ./vendor/bin/pest tests/php/Browser --ci
