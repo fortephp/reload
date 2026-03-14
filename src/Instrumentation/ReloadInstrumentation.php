@@ -385,7 +385,10 @@ class ReloadInstrumentation
             $compiler = app('livewire.compiler');
 
             if (class_exists(LivewireCompiler::class) && $compiler instanceof LivewireCompiler) {
-                return strtolower($compiler->cacheManager->getHash($sourcePath));
+                /** @var string $hash */
+                $hash = $compiler->cacheManager->getHash($sourcePath); // @phpstan-ignore method.nonObject
+
+                return strtolower($hash);
             }
         }
 

@@ -3,6 +3,7 @@
 namespace Forte\Reload\Middleware;
 
 use Closure;
+use Forte\Reload\Support\Runtime;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +15,7 @@ class RequestFlag
     {
         $isHmrRequest = $this->isHmrRequest($request);
 
-        app()->instance('reload_hmr', $isHmrRequest);
+        app(Runtime::class)->setActive($isHmrRequest);
 
         $response = $next($request);
 
@@ -27,7 +28,7 @@ class RequestFlag
 
     public function terminate(Request $request, mixed $response): void
     {
-        app()->instance('reload_hmr', false);
+        app(Runtime::class)->setActive(false);
     }
 
     private function isHmrRequest(Request $request): bool
