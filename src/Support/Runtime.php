@@ -4,13 +4,16 @@ namespace Forte\Reload\Support;
 
 class Runtime
 {
-    public static function active(): bool
-    {
-        return app()->bound('reload_hmr') && app('reload_hmr') === true;
-    }
+    private bool $disabled = false;
 
-    public static function enabled(): bool
+    private bool $active = false;
+
+    public function enabled(): bool
     {
+        if ($this->disabled) {
+            return false;
+        }
+
         $enabled = config('reload.enabled');
 
         if ($enabled === null) {
@@ -18,5 +21,30 @@ class Runtime
         }
 
         return (bool) $enabled;
+    }
+
+    public function active(): bool
+    {
+        return $this->active;
+    }
+
+    public function disable(): void
+    {
+        $this->disabled = true;
+    }
+
+    public function enable(): void
+    {
+        $this->disabled = false;
+    }
+
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
+    }
+
+    public function disabled(): bool
+    {
+        return $this->disabled;
     }
 }

@@ -20,13 +20,15 @@ class ServiceProvider extends LaravelServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/reload.php', 'reload');
+
+        $this->app->singleton(Runtime::class);
     }
 
     public function boot(): void
     {
         $this->publishConfig();
 
-        if (! Runtime::enabled()) {
+        if (! $this->app->make(Runtime::class)->enabled()) {
             return;
         }
 

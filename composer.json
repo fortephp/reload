@@ -35,7 +35,10 @@
         "laravel": {
             "providers": [
                 "Forte\\Reload\\ServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Reload": "Forte\\Reload\\Facades\\Reload"
+            }
         }
     },
     "config": {

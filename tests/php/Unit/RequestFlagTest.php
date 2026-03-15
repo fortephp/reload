@@ -1,43 +1,41 @@
 <?php
 
 use Forte\Reload\Middleware\RequestFlag;
+use Forte\Reload\Support\Runtime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 uses(Forte\Reload\Tests\TestCase::class);
 
-test('sets reload_hmr instance when X-Reload header is 1', function () {
+test('sets active state when X-Reload header is 1', function () {
     $middleware = new RequestFlag;
     $request = Request::create('/test', 'GET');
     $request->headers->set('X-Reload', '1');
 
     $response = $middleware->handle($request, fn () => new Response('ok'));
 
-    expect(app()->bound('reload_hmr'))->toBeTrue()
-        ->and(app('reload_hmr'))->toBeTrue()
+    expect(app(Runtime::class)->active())->toBeTrue()
         ->and($response->headers->get('X-Reload-Max-Patches'))->toBe('25');
 });
 
-test('sets reload_hmr false when header is absent', function () {
+test('sets active false when header is absent', function () {
     $middleware = new RequestFlag;
     $request = Request::create('/test', 'GET');
 
     $response = $middleware->handle($request, fn () => new Response('ok'));
 
-    expect(app()->bound('reload_hmr'))->toBeTrue()
-        ->and(app('reload_hmr'))->toBeFalse()
+    expect(app(Runtime::class)->active())->toBeFalse()
         ->and($response->headers->has('X-Reload-Max-Patches'))->toBeFalse();
 });
 
-test('sets reload_hmr false when header value is not 1', function () {
+test('sets active false when header value is not 1', function () {
     $middleware = new RequestFlag;
     $request = Request::create('/test', 'GET');
     $request->headers->set('X-Reload', '0');
 
     $response = $middleware->handle($request, fn () => new Response('ok'));
 
-    expect(app()->bound('reload_hmr'))->toBeTrue()
-        ->and(app('reload_hmr'))->toBeFalse()
+    expect(app(Runtime::class)->active())->toBeFalse()
         ->and($response->headers->has('X-Reload-Max-Patches'))->toBeFalse();
 });
 
@@ -50,7 +48,7 @@ test('passes request through to next middleware', function () {
     expect($response->getContent())->toBe('passed');
 });
 
-test('terminate clears reload_hmr instance between requests', function () {
+test('terminate clears active state between requests', function () {
     $middleware = new RequestFlag;
     $request = Request::create('/test', 'GET');
     $request->headers->set('X-Reload', '1');
@@ -58,11 +56,11 @@ test('terminate clears reload_hmr instance between requests', function () {
 
     $middleware->handle($request, fn () => $response);
 
-    expect(app('reload_hmr'))->toBeTrue();
+    expect(app(Runtime::class)->active())->toBeTrue();
 
     $middleware->terminate($request, $response);
 
-    expect(app('reload_hmr'))->toBeFalse();
+    expect(app(Runtime::class)->active())->toBeFalse();
 });
 
 test('uses configured max patch limit header for hmr requests', function () {
